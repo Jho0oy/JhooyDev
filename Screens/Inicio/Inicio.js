@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, Image, ImageBackground, TouchableOpacity, Modal, FlatList, SafeAreaView, Dimensions, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, Image, ImageBackground, TouchableOpacity, Modal, FlatList, Dimensions, ScrollView } from 'react-native';
 import { useNavigation, useRoute} from '@react-navigation/native';
 import QRCode from 'react-native-qrcode-svg'; // Importação para gerar QR Codes
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 
 
@@ -71,10 +72,15 @@ export default function Inicio() {
   const route = useRoute();
   const userEmail = route.params?.userEmail;
 
+  const navigate = useNavigation();
 
-  
+  function nextscreen(){
+    navigate.navigate('Cart')
+  }
 
-
+  function nextscreenn(){
+    navigate.navigate('AboutUs')
+  }
 
   return ( /* tela Inicial */
       <SafeAreaView style={styles.container}>
@@ -82,7 +88,7 @@ export default function Inicio() {
       <ImageBackground source={require('./Inicio/fundo.png')} style={styles.imageBackground}>
         <View style={styles.black}>
           <Text style={styles.text}>MVF SPORT</Text>
-          <TouchableOpacity style={styles.imageButton} onPress={() => setModalVisiblecar(true)}>
+          <TouchableOpacity style={styles.imageButton} onPress={()=>{nextscreen()}}>
             <Image source={require('./Inicio/car.png')} style={styles.buttonImage} />
           </TouchableOpacity>
           <TouchableOpacity style={styles.imageButtonc} onPress={() => setModalVisible(true)}>
@@ -162,26 +168,6 @@ export default function Inicio() {
             />    
       </ImageBackground>
 
-
-
-      {/* Modal Carrinho */}
-      <Modal animationType="slide" transparent={true} visible={modalVisiblecar} onRequestClose={() => {setModalVisiblecar(!modalVisiblecar);}}>
-          <ImageBackground source={require('./Inicio/fundo.png')} style={styles.imageBackground}>
-          <View style={styles.black3}>
-          <Text style={styles.NameCart}>Carrinho</Text>
-          <TouchableOpacity
-            style={{ ...styles.openButton,width:250,right:30,top:-200,left:-250}}
-            onPress={() => setModalVisiblecar(!modalVisiblecar)}>
-            <Image source={require('./Inicio/voltar.png')} style={styles.buttonImageV} />
-            </TouchableOpacity>
-            </View>
-
-            <FlatList data={carrinho} keyExtractor={(item, index) => index.toString()} renderItem={renderItemCarrinho}/>
-          </ImageBackground>
-        </Modal>
-
-
-
       {/* Modal para exibir QR Code */}
       <Modal
           visible={modalVisibleQR}
@@ -208,14 +194,7 @@ export default function Inicio() {
 
 
 
-          <Modal /* modal menu */
-            animationType="slide"
-            transparent={true}
-            visible={modalVisible}
-            onRequestClose={() => {
-              setModalVisible(!modalVisible);
-            }}
-          >
+          <Modal /* modal menu */animationType="slide" transparent={true} visible={modalVisible} onRequestClose={() => { setModalVisible(!modalVisible);}}>
             <View style={styles.centeredView}>
               <View style={styles.modalView}>
                 <Text style={styles.modalText}>MVF SPORT</Text>
@@ -228,30 +207,11 @@ export default function Inicio() {
                 </TouchableOpacity>
 
 
-                <TouchableOpacity onPress={() => setModalVisiblesobre(true)}
+                <TouchableOpacity onPress={()=>{nextscreenn()}}
                   style={{...styles.openButton, backgroundColor: '#fff',margin: 20,height:40,width:250,alignItems:'center',justifyContent:'center',borderRadius:5}}>
                   <Text style={styles.textStyle}>SOBRE NÓS</Text>
                 </TouchableOpacity>
-                
-                
-
-              <Modal /* modal sobre nós */animationType="slide" transparent={true} visible={modalVisiblesobre} onRequestClose={() => {setModalVisiblesobre(!modalVisiblesobre);}}>
-                <ImageBackground source={require('./Inicio/fundo.png')} style={styles.imageBackground}>
-                <Text style={styles.textsobrenos}>Aqui vai ficar o texto sobre nós</Text>
-                <View style={styles.centeredVieww}>
-                <View style={styles.black3}> 
-                <Text style={styles.textosobree}>SOBRE NÓS</Text>               
-                </View>
-                <View style={styles.modalView3}>
-                  <TouchableOpacity
-                    style={{ ...styles.openButton,margin: 20,height:40,width:250,alignItems:'center',justifyContent:'center',right:30,borderRadius:5,top:-140,left:-205}}
-                    onPress={() => setModalVisiblesobre(!modalVisiblesobre)}>
-                    <Image source={require('./Inicio/voltar.png')} style={styles.buttonImageV} />
-                  </TouchableOpacity>
-                </View>
-                </View>
-                </ImageBackground>
-              </Modal>
+    
 
               </View>
             </View>
