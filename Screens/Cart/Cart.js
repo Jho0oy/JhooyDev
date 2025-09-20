@@ -2,24 +2,25 @@ import {useState} from 'react';
 import { StyleSheet, Text, View, Image,  ImageBackground, TouchableOpacity} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 export default function Cart() {
-  const navigate = useNavigation();
 
-    function nextscreen(){
-        navigate.navigate('Inicio')
-    }
+    const navigation = useNavigation();
 
     return (
-      <View style={styles.container}> 
+      <SafeAreaView style={styles.container}>
         <ImageBackground source={require('./Cart/fundo.png')} style={styles.imageBackground}>
-          <Text style={styles.text}>Cart</Text> 
+          <View style={styles.black}>
+            <Text style={styles.text}>MVF SPORT</Text>
+          </View>
 
-          <TouchableOpacity style={styles.butt} activeOpacity={0.7} onPress={()=>{nextscreen()}}>
-                    <Text style={styles.to_text}>Come Back</Text>
-                </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.goBack()} style={{position: 'absolute',top: 50,left: 20,zIndex: 1}}>
+            <Icon name="arrow-back-circle" size={32} color="white" />
+          </TouchableOpacity>
+
         </ImageBackground> 
-      </View>
+      </SafeAreaView>
     );
 }
 
@@ -27,7 +28,7 @@ export default function Cart() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: "column"
+    flexDirection: "column",
   },
   imageBackground: {
     flex: 1,
@@ -39,18 +40,27 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 42,
     fontWeight: "bold",
-    bottom: -115
   },
   butt: {
     backgroundColor: 'white',
     paddingHorizontal: '20%',
     paddingVertical: 10,
     borderRadius: 15,
-    marginTop: 650
+    marginTop: 630
   },
   to_text: {
     fontSize: 30,
     color: 'black',
     fontWeight: 'bold'
-  }
+  }, 
+    black: {
+    backgroundColor: '#000',
+    width: '100%',
+    alignItems:'center',
+    position:'absolute',  
+    top: 0,
+    height: 200,
+    justifyContent: 'center',
+    zIndex: 1
+  },
 });

@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text, View, Image, ImageBackground, TouchableOpacity, Modal, FlatList, Dimensions, ScrollView } from 'react-native';
+import React, { useState, useRef} from 'react';
+import { StyleSheet, Text, View, Image, ImageBackground, TouchableOpacity, Modal, FlatList, Dimensions, ScrollView, Linking } from 'react-native';
 import { useNavigation, useRoute} from '@react-navigation/native';
 import QRCode from 'react-native-qrcode-svg'; // Importação para gerar QR Codes
 import { SafeAreaView } from 'react-native-safe-area-context';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 
 
@@ -15,6 +16,23 @@ export default function Inicio() {
   const [modalVisibleQR, setModalVisibleQR] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
   const [carrinho, setCarrinho] = useState([]); // Estado do carrinho
+
+
+
+const scrollRef = useRef(null);
+const brasilRef = useRef(null);
+const europaRef = useRef(null);
+const copaRef = useRef(null);
+
+  const scrollToSection = (ref) => {
+    ref.current?.measureLayout(
+      scrollRef.current, // relativo ao ScrollView
+      (x, y) => {
+        scrollRef.current?.scrollTo({ y: y, animated: true });
+      },
+      (error) => console.log(error)
+    );
+  };
 
 
 
@@ -82,9 +100,23 @@ export default function Inicio() {
     navigate.navigate('AboutUs')
   }
 
+
+  // Função para abrir links
+  const abrirInstagram = () => {
+    Linking.openURL('https://www.instagram.com/jhooy_felipe/');
+  };
+
+  const enviarEmail = () => {
+    Linking.openURL('mailto:felipedev@gmail.com');
+  };
+
+  const abrirWhatsApp = () => {
+    Linking.openURL('https://wa.me/5599991338024'); // código do país + número
+  };
+
   return ( /* tela Inicial */
       <SafeAreaView style={styles.container}>
-        <ScrollView>
+        <ScrollView ref={scrollRef}>
       <ImageBackground source={require('./Inicio/fundo.png')} style={styles.imageBackground}>
         <View style={styles.black}>
           <Text style={styles.text}>MVF SPORT</Text>
@@ -96,21 +128,21 @@ export default function Inicio() {
           </TouchableOpacity> 
 
           <View /* View do Nav Bar dos botoes das camisas */ style={styles.buttonContainer}>  
-            <TouchableOpacity style={styles.button}> 
+            <TouchableOpacity style={styles.button} onPress={() => scrollToSection(brasilRef)}> 
               <Text style={styles.buttonText}>BRASILEIRÃO</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity style={styles.button} onPress={() => scrollToSection(europaRef)}>
               <Text style={styles.buttonText}>EUROPA</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity style={styles.button} onPress={() => scrollToSection(copaRef)}>
               <Text style={styles.buttonText}>COPA DO MUNDO</Text>
             </TouchableOpacity>
           </View>
         </View> 
 
-
+        <Text style={styles.textobrasileirao}>BRASILEIRÃO</Text>
         <FlatList data={camisas} keyExtractor={(item) => item.id} horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.flatListContent}  renderItem={({ item }) => ( // Use um estilo definido para a lista
-                <View style={styles.camisaCard}>
+                <View ref={brasilRef} style={styles.camisaCard}>
                   <View style={styles.camisaItem}>
                     <Image source={item.image} style={styles.camisaImage} />
                   </View>
@@ -128,9 +160,9 @@ export default function Inicio() {
               )}
             />
 
-
+            <Text style={styles.textoEUROPA}>EUROPA</Text>
             <FlatList data={camisasEuropa} keyExtractor={(item) => item.id} horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.flatListContent}  renderItem={({ item }) => ( // Use um estilo definido para a lista
-                <View style={styles.camisaCard}>
+                <View ref={europaRef} style={styles.camisaCard}>
                   <View style={styles.camisaItem}>
                     <Image source={item.image} style={styles.camisaImage} />
                   </View>
@@ -148,8 +180,9 @@ export default function Inicio() {
               )}
             />
 
+          <Text style={styles.textoCOPADOMUNDO}>COPA DO MUNDO</Text>
           <FlatList data={camisasCM} keyExtractor={(item) => item.id} horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.flatListContent}  renderItem={({ item }) => ( // Use um estilo definido para a lista
-                <View style={styles.camisaCard}>
+                <View ref={copaRef} style={styles.camisaCard}>
                   <View style={styles.camisaItem}>
                     <Image source={item.image} style={styles.camisaImage} />
                   </View>
@@ -211,8 +244,19 @@ export default function Inicio() {
                   style={{...styles.openButton, backgroundColor: '#fff',margin: 20,height:40,width:250,alignItems:'center',justifyContent:'center',borderRadius:5}}>
                   <Text style={styles.textStyle}>SOBRE NÓS</Text>
                 </TouchableOpacity>
-    
 
+
+                <View style={{ flexDirection: 'row', marginTop: 50, justifyContent: 'space-around' }}>
+                  <TouchableOpacity onPress={abrirInstagram}>
+                    <Icon name="instagram" size={40} color="#C13584" />
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={abrirWhatsApp}>
+                    <Icon name="whatsapp" size={40} color="#25D366" />
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={enviarEmail}>
+                    <Icon name="envelope" size={40} color="#000" />
+                  </TouchableOpacity>
+                </View>
               </View>
             </View>
           </Modal>
@@ -529,6 +573,30 @@ const styles = StyleSheet.create({
     color: '#fff',        // Ajuste a imagem dentro do card
     fontSize: 30,
   }, 
+  textobrasileirao: {
+    color: '#000',        // nome "BRASILEIRÃO" do Flatlist das camisas da Europa
+    fontSize: 30,
+    fontStyle : 'italic',
+    fontWeight: 'bold',
+    marginTop:15,
+    top:5,
+  }, 
+  textoEUROPA: {
+    color: '#000',        // nome "EUROPA" do Flatlist das camisas da Europa
+    fontSize: 30,
+    fontStyle : 'italic',
+    fontWeight: 'bold',
+    marginTop:15,
+    top:5,
+  },
+  textoCOPADOMUNDO: {
+    color: '#000',        // nome "COPA DO MUNDO" do Flatlist das camisas da Copa do Mundo
+    fontSize: 30,
+    fontStyle : 'italic',
+    fontWeight: 'bold',
+    marginTop:15,
+    top:5,
+  },
 
   qrModalContainer: {
     flex: 1,
