@@ -13,7 +13,7 @@ export default function Splash() {
     return (
       <View style={styles.container}> 
         <ImageBackground source={require('./Splash/njr.png')} style={styles.imageBackground}>
-          <Text style={styles.text}>MVF SPORT</Text> 
+          <Text style={styles.text}>JHOOY SPORT</Text> 
           <Text style={styles.text}>Roupas de Time</Text>
 
           <TouchableOpacity style={styles.butt} activeOpacity={0.7} onPress={()=>{nextscreen()}}>

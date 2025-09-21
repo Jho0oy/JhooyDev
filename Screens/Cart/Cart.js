@@ -12,7 +12,7 @@ export default function Cart() {
       <SafeAreaView style={styles.container}>
         <ImageBackground source={require('./Cart/fundo.png')} style={styles.imageBackground}>
           <View style={styles.black}>
-            <Text style={styles.text}>MVF SPORT</Text>
+            <Text style={styles.text}>JHOOY SPORT</Text>
           </View>
 
           <TouchableOpacity onPress={() => navigation.goBack()} style={{position: 'absolute',top: 50,left: 20,zIndex: 1}}>

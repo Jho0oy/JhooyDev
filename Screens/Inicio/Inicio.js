@@ -119,7 +119,7 @@ const copaRef = useRef(null);
         <ScrollView ref={scrollRef}>
       <ImageBackground source={require('./Inicio/fundo.png')} style={styles.imageBackground}>
         <View style={styles.black}>
-          <Text style={styles.text}>MVF SPORT</Text>
+          <Text style={styles.text}>JHOOY SPORT</Text>
           <TouchableOpacity style={styles.imageButton} onPress={()=>{nextscreen()}}>
             <Image source={require('./Inicio/car.png')} style={styles.buttonImage} />
           </TouchableOpacity>
@@ -230,7 +230,7 @@ const copaRef = useRef(null);
           <Modal /* modal menu */animationType="slide" transparent={true} visible={modalVisible} onRequestClose={() => { setModalVisible(!modalVisible);}}>
             <View style={styles.centeredView}>
               <View style={styles.modalView}>
-                <Text style={styles.modalText}>MVF SPORT</Text>
+                <Text style={styles.modalText}>JHOOY SPORT</Text>
                 {userEmail && <Text style={{...styles.userEmail, textAlign: "center", fontSize:20}}>{userEmail}</Text>}
 
                 <TouchableOpacity
@@ -270,21 +270,14 @@ const copaRef = useRef(null);
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: "row",
+    flexDirection: "column"
   },
-  
-  
-  imgcamisa: {
-    width: 100,
-    height: 150,
-    textAlign: "center",
-  },
-  
+ 
   imageBackground: {
+    flex: 1,
+    resizeMode: "cover",
     justifyContent: "center",
-    alignItems: "center",
-    height:'100%',
-    width:'100%',
+    alignItems: "center"
   },
   
   text: {
@@ -464,9 +457,10 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     textAlign: "center",
     color: "#000",
-    fontSize: 45,
+    fontSize: 40,
     fontWeight: 'bold',
     marginTop: 120,
+    fontFamily: "sans-serif-medium",
   },
   
   centeredVieww: {
