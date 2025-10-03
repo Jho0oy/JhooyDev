@@ -4,6 +4,7 @@ import { useNavigation, useRoute} from '@react-navigation/native';
 import QRCode from 'react-native-qrcode-svg'; // Importação para gerar QR Codes
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { addToCart, getCart } from "../Services/CartService"; // Importe as funções do serviço de carrinho
 
 
 
@@ -81,8 +82,14 @@ const copaRef = useRef(null);
     setSelectedItem(null); // Reseta o item selecionado
   };
 
-  const adicionarAoCarrinho = (item) => {
-    setCarrinho((prevCarrinho) => [...prevCarrinho, item]);
+
+
+  const userId = "testeUser123"; // depois a gente liga ao login
+
+  const adicionarAoCarrinho = async (item) => {
+    await addToCart(userId, item);
+    const carrinhoAtualizado = await getCart(userId);
+    setCarrinho(carrinhoAtualizado);
   };
 
   
